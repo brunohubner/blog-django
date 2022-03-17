@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    {% include 'components/_head.html' %}
+    <title>Blog do Bruno</title>
+</head>
+
+<body>
+    {% include 'components/_nav.html' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    {% include 'components/_footer.html' %}
+</body>
+</html>
