@@ -13,3 +13,6 @@ class Comment(models.Model):
         User, on_delete=models.DO_NOTHING, blank=True, null=True)
     publicated = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self) -> str:
+        return self.name
