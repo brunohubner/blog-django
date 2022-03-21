@@ -79,5 +79,5 @@ class PostDetails(UpdateView):
 
         comment.save()
         messages.success(
-            self.request, 'Comentário enviado para avaliação dos ADMs.')
+            self.request, 'Comentário enviado para avaliação.')
         return redirect('post_details', pk=post.id)

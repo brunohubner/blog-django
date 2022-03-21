@@ -4,63 +4,64 @@
 {% block title %}{{ post.title|title }} | {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row pt-5">
-            <div class="col-xl"></div>
-            <div class="col-xl-8 text-center">
-                <h2>{{ post.title }}</h2>
-                <h5>{{ post.excerpt|safe }}</h5>
-                <p class="text-muted mt-4">
-                    <small>
-                        {{ post.author }} | {{ post.created_at|naturalday|title }} | {{ post.category }}
-                    </small>
-                </p>
-            </div>
-            <div class="col-xl"></div>
+    <div class="row pt-5">
+        <div class="col-xl"></div>
+        <div class="col-xl-8 text-center">
+            <h2>{{ post.title }}</h2>
+            <h5>{{ post.excerpt|safe }}</h5>
+            <p class="text-muted mt-4">
+                <small>
+                    {{ post.author }} | {{ post.created_at|naturalday|title }} | {{ post.category }}
+                </small>
+            </p>
         </div>
-        <div class="row pt-5">
-            <div class="col-xl"></div>
-            <div class="col-xl-8">
-                {% if post.image %}
-                    <img class="img-fluid pb-5 " src="{{ post.image.url }}" alt="{{ post.title }}">
-                {% endif %}
-                {{ post.content|safe }}
-            </div>
-            <div class="col-xl"></div>
+        <div class="col-xl"></div>
+    </div>
+    <div class="row pt-5">
+        <div class="col-xl"></div>
+        <div class="col-xl-8">
+            {% if post.image %}
+                <img class="img-fluid pb-5 " src="{{ post.image.url }}" alt="{{ post.title }}">
+            {% endif %}
+            {{ post.content|safe }}
         </div>
-        {% if comments %}
-            <div class="row pt-5">
-                <div class="col-xl"></div>
-                <div class="col-xl-8">
-                    <h2 class="my-3">Comentários ({{ comments.count }})</h2>
-                    {% for comment in comments %}
-                        <h5 class="mb-2 mt-5">{{ comment.name }} disse:</h5>
-                        <small class="text-muted">{{ comment.created_at|naturalday|title }}</small>
-                        <p class="mb-1">{{ comment.comment }}</p>
-                    {% endfor %}
-                </div>
-                <div class="col-xl"></div>
-            </div>
-        {% endif %}
+        <div class="col-xl"></div>
+    </div>
+    {% if comments %}
         <div class="row pt-5">
             <div class="col-xl"></div>
             <div class="col-xl-8">
-                <h2 class="my-3">Deixe um comentário</h2>
-                <form method="POST" action="#envia_comentario">
-                    {% csrf_token %}
-                    <table class="table">
-                        {{ form }}
-                        <tr>
-                            <td colspan="2">
-                                {% include 'components/_messages.html' %}
-                                <input id="envia_comentario" type="submit" class="btn btn-primary"
-                                    value="Enviar">
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                <h2 class="my-3">Comentários ({{ comments.count }})</h2>
+                {% for comment in comments %}
+                    <h5 class="mb-2 mt-5">{{ comment.name }} disse:</h5>
+                    <small class="text-muted">{{ comment.created_at|naturalday|title }}</small>
+                    <p class="mb-1">{{ comment.comment }}</p>
+                {% endfor %}
             </div>
             <div class="col-xl"></div>
         </div>
+    {% endif %}
+    <div class="row pt-5">
+        <div class="col-xl"></div>
+        <div class="col-xl-8">
+            <h2 class="my-3">Deixe um comentário</h2>
+            <form method="POST" action="#envia_comentario">
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                    {{ hidden_field }}
+                {% endfor %}
+                {% for visible_field in form.visible_fields %}
+                    <div class="form-group">
+                        {{ visible_field.label_tag }}<br/>
+                        {{ visible_field }}
+                        {{ visible_field.errors }}
+                    </div>
+                {% endfor %}
+                {% include 'components/_messages.html' %}
+                <input id="envia_comentario" type="submit" class="btn btn-primary"
+                    value="Enviar">
+            </form>
+        </div>
+        <div class="col-xl"></div>
     </div>
 {% endblock  %}
