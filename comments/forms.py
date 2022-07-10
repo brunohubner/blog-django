@@ -10,7 +10,7 @@ class FormComment(ModelForm):
         comment = data.get('comment')
 
         if len(name) < 3 or len(name) > 45:
-            self.add_error('name', 'Nome prercisa ter de 3 a 45 caracteres.')
+            self.add_error('name', 'Nome precisa ter de 3 a 45 caracteres.')
 
     class Meta:
         model = Comment
