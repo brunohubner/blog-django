@@ -1,12 +1,16 @@
 from comments.models import Comment
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic.list import ListView
-from django.views.generic.edit import UpdateView
 from comments.forms import FormComment
 from posts.models import Post
 from django.db.models import Q, Count, Case, When
 from django.contrib import messages
 from django.views import View
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 
 class PostIndex(ListView):
@@ -66,10 +70,14 @@ class PostDetails(View):
         post = get_object_or_404(Post, pk=pk, publicated=True)
         comments = Comment.objects.filter(publicated=True, post=post.id)
         form = FormComment(request.POST or None)
+
+        GOOGLE_RECAPTCHA_V2_SITE_KEY = env('GOOGLE_RECAPTCHA_V2_SITE_KEY')
+
         self.context = {
             'post': post,
             'comments': comments,
             'form': form,
+            'GOOGLE_RECAPTCHA_V2_SITE_KEY': GOOGLE_RECAPTCHA_V2_SITE_KEY
         }
 
     def get(self, request, *args, **kwargs):
