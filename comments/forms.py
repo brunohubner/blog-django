@@ -26,7 +26,7 @@ class FormComment(ModelForm):
         if not recaptcha_result.get('success'):
             self.add_error(
                 'comment',
-                'Você é robô? Tente novamente.'
+                'Você é um robô? Por favor tente novamente.'
             )
 
         cleaned_data = self.cleaned_data
