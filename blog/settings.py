@@ -34,6 +34,12 @@ DEBUG = True if env('DEBUG') == 'True' else False
 
 ALLOWED_HOSTS = [] if env('MODE') != 'production' else [env('HTTP_HOST')]
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO',
+                           'https') if not DEBUG else ()
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 
 # Application definition
 
