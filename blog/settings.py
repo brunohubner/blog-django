@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from itertools import product
 from django.contrib.messages import constants
 from pathlib import Path
 import environ
@@ -27,18 +26,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$vy5b$s5=c6n7_n#mm6$b(%hv(z=kp1*b1*iprsqjm+s$zpjt!'
+SECRET_KEY = env('SETTINGS_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if env('DEBUG') == 'True' else False
 
 ALLOWED_HOSTS = [] if env('MODE') != 'production' else [env('HTTP_HOST')]
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO',
-                           'https') if not DEBUG else ()
-SECURE_SSL_REDIRECT = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
+SECURE_PROXY_SSL_HEADER = None if DEBUG else (
+    'HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = None if DEBUG else True
+SESSION_COOKIE_SECURE = None if DEBUG else True
+CSRF_COOKIE_SECURE = None if DEBUG else True
 
 
 # Application definition
